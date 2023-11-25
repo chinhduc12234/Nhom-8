@@ -1424,7 +1424,7 @@ public final class Form_QLSP extends javax.swing.JPanel {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         try {
             if (MsgHelper.confirm(this, "Bạn có muốn sửa không?") == true) {
-                SanPhamChiTiet chiTiet = cTService.getAll().get(jTable3.getSelectedRow());
+                SanPhamChiTiet chiTiet = cTService.getByMSPCT(jTable3.getValueAt(jTable3.getSelectedRow(), 0).toString());
                 cTService.update(readDataSPCT(), chiTiet.getId());
                 loadDataSPCT(cTService.getAll());
                 jButton11ActionPerformed(evt);

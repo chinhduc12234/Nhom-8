@@ -668,6 +668,10 @@ public final class FormHomeUI extends javax.swing.JPanel implements ItemClickLis
         donService.update(getModelHD_v3(), Integer.parseInt(jLabel7.getText()));
         hoaDonCTService.huyHD(Integer.parseInt(jLabel7.getText()));
         MsgHelper.alert(this, "Hủy thành công");
+        panelItem.removeAll();
+            for (SanPhamChiTiet o : cTService.getAll()) {
+                this.addItem(o);
+            }
         jLabel2.setText("0");
         jLabel5.setText("0");
         jTextField1.setText("");
