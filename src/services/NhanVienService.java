@@ -1,6 +1,7 @@
 package services;
 
 import entity.NhanVien;
+import entity.SanPhamChiTiet;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class NhanVienService implements MethodService<NhanVien> {
 
     String GET_ALL = "Select * From NhanVien";
     String GET_BY_ID = "Select * From NhanVien Where idNhanVien = ?";
+    String GET_BY_SDT = "Select * From NhanVien Where sdt = ?";
     String INSERT = "Insert NhanVien(ten, gioitinh, ngaysinh, sdt,email,diachi,matkhau,vaitro,trangthai) "
             + "VALUES (?,?,?,?,?,?,?,?,?)";
     String UPDATE = "UPDATE NhanVien SET ten = ?, gioitinh = ?, ngaysinh = ?, sdt = ?, email = ?, diachi = ?, matkhau = ?, vaitro = ?, trangthai = ? WHERE IDNhanVien = ?";
@@ -50,6 +52,14 @@ public class NhanVienService implements MethodService<NhanVien> {
     @Override
     public NhanVien getByID(int id) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public List<NhanVien> getBySDT(String id) {
+        List<NhanVien> list = selectBySQL(GET_BY_SDT, id);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list;
     }
 
     @Override

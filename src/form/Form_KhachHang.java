@@ -27,7 +27,7 @@ public class Form_KhachHang extends javax.swing.JPanel {
         DefaultTableModel tm = (DefaultTableModel) jTable2.getModel();
         tm.setRowCount(0);
         for (KhachHang o : list) {
-            if (o.getTichDiem() < 1000 && o != null) {
+            if (o.getTichDiem() < 3000 && o != null) {
                 tm.addRow(new Object[]{
                     o.getId(), o.getTen(), o.getSdt(), o.getDiaChi(),
                     o.getNgaySinh(), o.getEmail(), o.getTichDiem(),
@@ -42,7 +42,7 @@ public class Form_KhachHang extends javax.swing.JPanel {
         tm.setRowCount(0);
 
         for (KhachHang o : list) {
-            if (o.getTichDiem() > 1000 && o != null) {
+            if (o.getTichDiem() > 3000 && o != null) {
                 tm.addRow(new Object[]{
                     o.getId(), o.getTen(), o.getSdt(), o.getDiaChi(),
                     o.getNgaySinh(), o.getEmail(), o.getTichDiem(),

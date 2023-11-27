@@ -2,15 +2,20 @@ package form;
 
 import entity.NhanVien;
 import java.awt.Color;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -24,14 +29,44 @@ public class Form_NhanVien extends javax.swing.JPanel {
     public Form_NhanVien() {
         initComponents();
 
-        loadData();
+        loadData(nhanVienService.getAll());
 
-        loadDataV2();
+        loadDataV2(nhanVienService.getAll());
 
         jButton3.setEnabled(false);
+
+        jTextField6.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                List<NhanVien> nv = nhanVienService.getBySDT(jTextField6.getText());
+                if (nv != null) {
+                    loadData(nv);
+                    loadDataV2(nv);
+                } else {
+                    loadData(nhanVienService.getAll());
+
+                    loadDataV2(nhanVienService.getAll());
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                loadData(nhanVienService.getAll());
+
+                loadDataV2(nhanVienService.getAll());
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                loadData(nhanVienService.getAll());
+
+                loadDataV2(nhanVienService.getAll());
+            }
+        });
     }
 
-    private void loadData() {
+    private void loadData(List<NhanVien> list) {
         DefaultTableModel tm = (DefaultTableModel) jTable3.getModel();
         tm.setRowCount(0);
         spTable.setVerticalScrollBar(new ScrollBar());
@@ -40,7 +75,7 @@ public class Form_NhanVien extends javax.swing.JPanel {
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        for (NhanVien o : nhanVienService.getAll()) {
+        for (NhanVien o : list) {
             if (o.getTrangThai() && o != null) {
                 tm.addRow(new Object[]{
                     o.getId(), o.getHoTen(), o.getNgaySinh(), o.getGioiTinh() ? "Nam" : "Nữ", o.getSoDienThoai(),
@@ -52,7 +87,7 @@ public class Form_NhanVien extends javax.swing.JPanel {
         }
     }
 
-    private void loadDataV2() {
+    private void loadDataV2(List<NhanVien> list) {
         DefaultTableModel tm = (DefaultTableModel) jTable4.getModel();
         tm.setRowCount(0);
         spTable.setVerticalScrollBar(new ScrollBar());
@@ -61,7 +96,7 @@ public class Form_NhanVien extends javax.swing.JPanel {
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        for (NhanVien o : nhanVienService.getAll()) {
+        for (NhanVien o : list) {
             if (!o.getTrangThai() && o != null) {
                 tm.addRow(new Object[]{
                     o.getId(), o.getHoTen(), o.getNgaySinh(), o.getGioiTinh() ? "Nam" : "Nữ", o.getSoDienThoai(),
@@ -636,8 +671,8 @@ public class Form_NhanVien extends javax.swing.JPanel {
 
         nhanVienService.add(nhanVien);
         JOptionPane.showMessageDialog(this, "Thêm thành công");
-        loadData();
-        loadDataV2();
+        loadData(nhanVienService.getAll());
+        loadDataV2(nhanVienService.getAll());
         resetForm();
 
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -663,8 +698,8 @@ public class Form_NhanVien extends javax.swing.JPanel {
         Integer id = Integer.parseInt(jTextField1.getText());
         nhanVienService.update(readObject(), id);
         JOptionPane.showMessageDialog(this, "Thay đổi thành công");
-        loadData();
-        loadDataV2();
+        loadData(nhanVienService.getAll());
+        loadDataV2(nhanVienService.getAll());
         jButton2.setEnabled(true);
         resetForm();
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -703,15 +738,14 @@ public class Form_NhanVien extends javax.swing.JPanel {
         jDateChooser1.setDate(null);
         jButton2.setEnabled(true);
         jButton3.setEnabled(false);
-        loadData();
-        loadDataV2();
+        loadData(nhanVienService.getAll());
+        loadDataV2(nhanVienService.getAll());
 
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
- 
-        
+
         if (jComboBox3.getSelectedIndex() == 0) {
             TableRowSorter<TableModel> sorter = new TableRowSorter<>(((DefaultTableModel) jTable3.getModel()));
             sorter.setRowFilter(RowFilter.regexFilter("Nam"));
