@@ -107,24 +107,27 @@ public final class FormHomeUI extends javax.swing.JPanel implements ItemClickLis
 
                 @Override
                 public void removeUpdate(DocumentEvent e) {
-                    String temp = "";
-                    String[] arStr = jLabel2.getText().split("\\.");
-                    for (String item : arStr) {
-                        temp += item;
+                    if (!jTextField1.getText().isBlank()) {
+                        String temp = "";
+                        String[] arStr = jLabel2.getText().split("\\.");
+                        for (String item : arStr) {
+                            temp += item;
+                        }
+                        temp = temp.replace(",", ""); // Loại bỏ dấu phẩy trong chuỗi
+                        int value = Integer.parseInt(temp);
+                        String formattedValue = String.format("t: %,.0f", (double) value);
+                        int input = Integer.parseInt(jTextField1.getText()); // Giá trị nhập từ jTextField1
+                        if (input <= value) {
+                            jLabel5.setText("0");
+                        } else {
+                            int tienTra = input - value;
+                            DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance();
+                            dfs.setDecimalSeparator('.');
+                            DecimalFormat df = new DecimalFormat("#,##0", dfs);
+                            jLabel5.setText(df.format(tienTra));
+                        }
                     }
-                    temp = temp.replace(",", ""); // Loại bỏ dấu phẩy trong chuỗi
-                    int value = Integer.parseInt(temp);
-                    String formattedValue = String.format("t: %,.0f", (double) value);
-                    int input = Integer.parseInt(jTextField1.getText()); // Giá trị nhập từ jTextField1
-                    if (input <= value) {
-                        jLabel5.setText("0");
-                    } else {
-                        int tienTra = input - value;
-                        DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance();
-                        dfs.setDecimalSeparator('.');
-                        DecimalFormat df = new DecimalFormat("#,##0", dfs);
-                        jLabel5.setText(df.format(tienTra));
-                    }
+
                 }
 
                 @Override
@@ -669,9 +672,9 @@ public final class FormHomeUI extends javax.swing.JPanel implements ItemClickLis
         hoaDonCTService.huyHD(Integer.parseInt(jLabel7.getText()));
         MsgHelper.alert(this, "Hủy thành công");
         panelItem.removeAll();
-            for (SanPhamChiTiet o : cTService.getAll()) {
-                this.addItem(o);
-            }
+        for (SanPhamChiTiet o : cTService.getAll()) {
+            this.addItem(o);
+        }
         jLabel2.setText("0");
         jLabel5.setText("0");
         jTextField1.setText("");

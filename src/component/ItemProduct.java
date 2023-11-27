@@ -201,12 +201,12 @@ public final class ItemProduct extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (Integer.valueOf(jSpinner1.getValue().toString()) < 0) {
-            MsgHelper.alert(this, "Không amm \nThêm thất bại");
+            MsgHelper.alert(this, "Không Thể Âm Sản Phẩm \nThêm thất bại");
             jSpinner1.setValue(0);
             return;
         }
         if (Integer.valueOf(jSpinner1.getValue().toString()) > data.getSoLuong()) {
-            MsgHelper.alert(this, "Không đủ số lượng cho đại gia mua \nThêm thất bại ");
+            MsgHelper.alert(this, "Không đủ số lượng sản phẩm \nThêm thất bại ");
             jSpinner1.setValue(data.getSoLuong());
             return;
         }
